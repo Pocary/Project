@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 
 def on_canvas_click(event):
     global pin_x, selected_pin
@@ -9,8 +10,13 @@ def on_canvas_drag(event):
     global pin_x
     if "moveable" in canvas.gettags(selected_pin):
         x = event.x - pin_x
-        canvas.move(selected_pin, x, 0)
-        pin_x = event.x
+        # 이미지가 움직일 때의 새로운 x 좌표 계산
+        new_x = canvas.coords(selected_pin)[0] + x
+
+        # 이미지가 100 이상인지 확인하고 움직임 제한
+        if new_x >= 100 and new_x <=170:
+            canvas.move(selected_pin, x, 0)
+            pin_x = event.x
 
         check_image_position()
 
@@ -22,6 +28,11 @@ def on_release(event):
         canvas.delete(images[0])
         images.append(canvas.create_image(center_x, center_y, image=unlock))
         canvas.tag_lower(images[6])
+
+        win.after(2000, exit_program)
+
+def exit_program():
+    win.destroy()
 
 
 def check_image_position():
