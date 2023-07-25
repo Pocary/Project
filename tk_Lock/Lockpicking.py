@@ -14,8 +14,18 @@ def on_canvas_drag(event):
 
         check_image_position()
 
+def on_release(event):
+
+    results = [clear1, clear2, clear3, clear4, clear5]
+
+    if all(results):
+        canvas.delete(images[0])
+        images.append(canvas.create_image(center_x, center_y, image=unlock))
+        canvas.tag_lower(images[6])
+
+
 def check_image_position():
-    global clear1, clear2, clear3, clear4, clear5, prev1, prev2, prev3, prev4, prev5
+    global clear1, clear2, clear3, clear4, clear5, prev1, prev2, prev3, prev4, prev5, results
     pin1_x = canvas.coords(images[1])[0]
     pin2_x = canvas.coords(images[2])[0]
     pin3_x = canvas.coords(images[3])[0]
@@ -46,14 +56,7 @@ def check_image_position():
         print(4)
     elif clear5 and pin5_x != prev5:
         print(5)
-    
-    results = [clear1, clear2, clear3, clear4, clear5]
-
-    if all(results):
-        canvas.delete(images[0])
-        images.append(canvas.create_image(center_x, center_y, image=unlock))
-        canvas.tag_lower(images[6])
-
+        
     prev1, prev2, prev3, prev4, prev5 = pin1_x, pin2_x, pin3_x, pin4_x, pin5_x
 
 prev1 = prev2 = prev3 = prev4 = prev5 = 0
@@ -93,5 +96,6 @@ images.append(canvas.create_image(pin5_x, pin1_y + pin_y_gap*4, image=pin5, tags
 # 마우스 클릭 이벤트와 드래그 이벤트를 캔버스에 바인딩
 canvas.bind("<Button-1>", on_canvas_click)
 canvas.bind("<B1-Motion>", on_canvas_drag)
+canvas.bind("<ButtonRelease-1>", on_release)
 
 win.mainloop()
