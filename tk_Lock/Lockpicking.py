@@ -1,6 +1,15 @@
 import tkinter as tk
 import time
 
+def center_window(root, width, height):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    x_coordinate = (screen_width - width) // 2
+    y_coordinate = (screen_height - height) // 2
+
+    root.geometry(f"{width}x{height}+{x_coordinate}+{y_coordinate}")
+
 def on_canvas_click(event):
     global pin_x, selected_pin
     pin_x = event.x
@@ -79,6 +88,8 @@ win.title("Lock Picking")
 width, height = 360, 500
 canvas = tk.Canvas(win, width=width, height=height)
 canvas.pack()
+
+center_window(win, width, height)
 
 # 이미지 불러오기
 lock = tk.PhotoImage(file="tk_Lock/resources/images/Lock.png")
