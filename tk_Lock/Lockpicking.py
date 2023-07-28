@@ -1,5 +1,4 @@
 import tkinter as tk
-import time
 
 def center_window(root, width, height):
     screen_width = root.winfo_screenwidth()
